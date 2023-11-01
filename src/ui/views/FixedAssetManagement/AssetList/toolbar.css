@@ -1,0 +1,15 @@
+.tool-bar {
+    height: 35px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.tool-bar__search-bar {
+    display: flex;
+    gap: 11px;
+}
+
+.tool-bar__button-bar {
+    display: flex;
+    gap: 11px;
+}

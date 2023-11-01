@@ -1,0 +1,135 @@
+.at-form-container {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 100vw;
+    min-height: 100vh;
+    transition-duration: 0s;
+}
+
+.at-form__header {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    height: 50px;
+    padding: 0 14px;
+    background-color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.at-form__header--title {
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.at-form__body {
+    position: fixed;
+    top: 50px;
+    background-color: rgb(223, 242, 255);
+
+    width: 100vw;
+    height: calc(100vh - 100px);
+
+    display: flex;
+    flex-direction: column;
+
+    padding: 0px 14px 15px 14px;
+}
+
+.at-form__body--title{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 76px;
+    padding: 4px 0;
+    font-weight: 700;
+}
+
+.at-form__body--text {
+    display: flex;
+    align-items: center;
+    gap: 30px;
+}
+
+.at-form__body--general {
+    background-color: #fff;
+    border-radius: 2.5px;
+    width: 100%;
+    padding: 0px 14px 15px 14px;
+}
+
+.at-form__body--input {
+    /* background-color: red; */
+    width: 100%;
+    display: flex;
+    gap: 20px;
+}
+
+.at-form__body--options {
+    margin-top: 16px;
+    gap: 20px;
+}
+
+    .at-form__body--options .options__checkbox {
+        display: flex;
+    }
+
+    .at-form__body--options .options__deputy {
+        margin-top: 10px;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .at-form__body--options .options__table tbody td{
+        height: 36px;
+        padding: 5px 20px 5px 0;
+    }
+
+    .at-form__body--options .options__table td:first-child{
+        width: 40px;
+    }
+
+    .options__table--checkbox{
+        text-align: left;
+    }
+
+    .options__table--checkbox p{
+        margin: 0;
+        width: 36px;
+        height: 36px;
+        border: 1px solid #aaa;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 4px;
+    }
+
+    .options__table--input {
+        width: 25%;
+    }
+    
+    .options__table--function-col {
+        gap: 14px;
+        display: flex;
+        align-items: center;
+    }
+
+.at-form__footer {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    height: 50px;
+    padding: 0 14px;
+    background-color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.at-form__footer--buttons {
+    margin-left: auto;
+    display: flex;
+    gap: 10px;
+}

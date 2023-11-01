@@ -1,0 +1,182 @@
+/* CSS chung cho tất cả thẻ input */
+/* === label ===*/
+label {
+    display: flex;
+    gap: 5px;
+    font-weight: 500;
+    margin-top: 13px;
+    margin-bottom: 6px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+label a {
+    cursor: pointer;
+}
+
+.required::after{
+    content: "*";
+    font-size: 13px;
+    color: red;
+}
+/* end label */
+
+/* === input === */
+input{
+    width: 100%;
+    min-width: 100px;
+    height: var(--height-default);
+    border: 1px solid var(--color-border-default);
+    /* border-radius: var(--border-radius); */
+    padding: 0 12px;
+    /* margin-top: 8px; */
+    /* margin-bottom: 8px; */
+}
+
+input[disabled]{
+    background-color: #eee;
+    cursor: not-allowed;
+}
+
+input:hover:not([disabled]), select:hover:not([disabled]) {
+    /* background-color: var(--color-background-hover); */
+    border: 1px solid var(--color-border-hover) !important; 
+}
+
+input:focus, select:focus {
+    border: 1px solid var(--color-border-focus);
+    outline: none;
+}
+
+input:focus {
+    box-shadow: inset -4px 0px 0px rgba(var(--color-border-hover), .7);
+}
+
+
+input[type=text]::placeholder {
+    color: #999999;
+    font-style: italic;
+}
+
+input[type=number] {
+    text-align: right;
+}
+
+input::placeholder  {
+    color: #999999;
+    font-style: italic;
+}
+
+select{  
+    width: 100%;
+    color: #555;
+    font-style: italic; 
+}
+
+/* Hide Arrows From Input Number */
+input[type=number]::-webkit-outer-spin-button,
+input[type=number]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* end Input */
+
+/* === Input with Icon === */
+.input-container {
+    position: relative;
+    display: flex;
+    width: 100%;
+}
+
+.input--input {
+    position: relative;
+    display: flex;
+}
+    .input-with-icon__has-before {
+        position: relative;
+        background-color: #ffffff;
+        border-radius: 2.5px;
+        border: 1px solid #afafaf;
+        overflow: hidden;
+        padding-left: 38px;
+    }
+
+    .input-with-icon__has-clear {
+        position: relative;
+        background-color: #ffffff;
+        border-radius: 2.5px;
+        border: 1px solid #afafaf;
+        overflow: hidden;
+        padding-right: 30px;
+    }
+
+    .input-with-icon__has-after {
+        position: relative;
+        background-color: #ffffff;
+        border-top-left-radius: 2.5px;
+        border-bottom-left-radius: 2.5px;
+        border-top-right-radius: 0px !important;
+        border-bottom-right-radius: 0px !important;
+        border: 1px solid #afafaf;
+        overflow: hidden;
+        padding-right: 10px;
+    }
+
+/* */
+.input__icon--before{
+    position: absolute;
+    top: 5px;
+    left: 7px;
+}
+
+.input__icon--clear {
+    position: absolute;
+    top: 13px;
+    right: 12px;
+}
+
+.input__icon--clear:hover {
+    transform: scale(1.1);
+}
+
+.input__icon--arrow {
+    position: absolute;
+    top: 11px;
+    right: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+/* ss */
+/* end Input with Icon === */
+.input__icon--after-container {
+    width: 44px;
+    border: 1px solid #afafaf;
+    border-left: none;
+    border-top-right-radius: 2.5px;
+    border-bottom-right-radius: 2.5px;
+    background-color: #eee;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/*  */
+input.error {
+    border: 1px solid red;
+}
+
+.text--error {
+    margin-top: 4px;
+    margin-bottom: -10px;
+    color: red;
+    font-size: 12px;
+    z-index: 99;
+}
+
+.error-hidden {
+    opacity: 0;
+}

@@ -1,0 +1,45 @@
+label {
+    display: flex;
+    gap: 5px;
+    font-weight: 500;
+    margin-top: 13px;
+    margin-bottom: 6px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+label a {
+    cursor: pointer;
+}
+
+.required::after{
+    content: "*";
+    font-size: 13px;
+    color: red;
+}
+
+.datepicker__input {
+    /* background-color: red; */
+    height: 36px;
+    margin-bottom: 4px;
+    position: relative;
+    display: flex;
+}
+
+.datepicker__input i{
+    position: absolute;
+    top: 8px;
+    right: 12px;
+}
+/*  */
+.text--error {
+    margin-top: 4px;
+    margin-bottom: -10px;
+    color: red;
+    font-size: 12px;
+}
+
+.error-hidden {
+    opacity: 0;
+}

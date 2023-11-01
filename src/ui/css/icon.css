@@ -1,0 +1,415 @@
+/* === Icon size === */
+.icon--36 {
+    width: 36px;
+    height: 36px;
+}
+
+.icon--24 {
+    width: 24px;
+    height: 24px;
+}
+
+.icon--20 {
+    width: 20px;
+    height: 20px;
+}
+
+.icon--18 {
+    width: 18px;
+    height: 18px;
+}
+
+.icon--14 {
+    width: 14px;
+    height: 14px;
+}
+
+.icon--10 {
+    width: 10px;
+    height: 10px;
+}
+
+.icon--8 {
+    width: 8px;
+    height: 8px;
+}
+/*  */
+
+/* === Icon type ===  */
+.icon--button {
+    cursor: pointer;
+}
+
+.icon-container--circle {
+    width: 30px;
+    height: 30px;
+    background-color: #fff;
+    border-radius: 50%;
+    padding: 5px 5px;
+}
+
+.icon-container--circle div:hover {
+    transform: scale(1.1);
+}
+
+.icon--disabled {
+    cursor: not-allowed;
+}
+/*  */
+
+/* === Icons === */
+.icon--loading {
+    background-image: var(--loading-icon-url);
+    width: 70px;
+    height: 70px;
+    background-size: cover;
+    animation: rotate 2s linear infinite;
+}
+
+@keyframes rotate {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+
+.icon--home {
+    background-image: var(--icon-url);
+    background-repeat: no-repeat;
+    background-position: -20px -680px;
+}
+
+.icon--general{
+    background-image: var(--icon-url);
+    background-repeat: no-repeat;
+    background-position: -20px -154px;
+}
+
+.icon--asset{
+    background-image: var(--icon-url);
+    background-repeat: no-repeat;
+    background-position: -64px -153px;
+}
+
+.icon--asset-2{
+    background-image: var(--icon-url);
+    background-repeat: no-repeat;
+    background-position: -109px -153px;
+}
+
+.icon--tool{
+    background-image: var(--icon-url);
+    background-repeat: no-repeat;
+    background-position: -152px -152px;
+}
+
+.icon--category{
+    background-image: var(--icon-url);
+    background-repeat: no-repeat;
+    background-position: -196px -152px;
+}
+
+.icon--search-menu {
+    background-image: var(--icon-url);
+    background-repeat: no-repeat;
+    background-position: -240px -152px;
+}
+
+.icon--report{
+    background-image: var(--icon-url);
+    background-repeat: no-repeat;
+    background-position: -328px -152px;
+}
+
+.icon--notification {
+    background-image: var(--icon-url);
+    background-repeat: no-repeat;
+    background-position: -328px -107px;
+}
+
+.icon--system {
+    background-image: var(--icon-url);
+    background-repeat: no-repeat;
+    background-position: -196px -20px;
+}
+
+.icon--support {
+    background-image: var(--icon-url);
+    background-repeat: no-repeat;
+    background-position: -64px -64px;
+}
+
+.icon--support-2 {
+    background-image: var(--icon-url);
+    background-repeat: no-repeat;
+    background-position: -66px -66px;
+}
+
+.icon__profile-container{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 9px;
+    align-items: center;
+}
+
+.icon--profile {
+    background-image: var(--icon-url);
+    background-repeat: no-repeat;
+    background-position: -20px -20px;
+    width: 24px;
+    height: 24px;
+}
+
+.icon--detail {
+    background-image: var(--icon-url);
+    background-repeat: no-repeat;
+    background-position: -242px -110px
+}
+
+.icon--search {
+    background-image: var(--icon-url);
+    background-repeat: no-repeat;
+    background-position: -240px -20px;;
+}
+
+.icon--filter {
+    background-image: var(--icon-url);
+    background-repeat: no-repeat;
+    background-position: -240px -65px;
+}
+
+.icon--plus {
+    background-image: var(--icon-url);
+    background-repeat: no-repeat;
+    background-position: -198px -418px;
+}
+
+.icon--excel {
+    background-image: var(--icon-url);
+    background-repeat: no-repeat;
+    background-position: -286px -110px;
+}
+
+.icon--delete-red {
+    background-image: var(--icon-url);
+    background-repeat: no-repeat;
+    background-position: -462px -110px;
+}
+.icon--dropdown-select {
+    background-image: var(--icon-url);
+    background-repeat: no-repeat;
+    background-position: -155px -418px;
+}
+
+.icon--chat {
+    background-image: var(--icon-url);
+    background-repeat: no-repeat;
+    background-position: -66px -22px;;
+}
+
+.icon--recycle {
+    background-image: var(--icon-url);
+    background-repeat: no-repeat;
+    background-position: -110px -66px
+}
+
+/* icon chỉ hướng */
+.icon__caret-up-and-down {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+}
+
+.icon--caret-up {
+    background-image: var(--icon-url);
+    background-repeat: no-repeat;
+    background-position: -28px -338px;
+	width: 8px;
+	height: 5px;
+}
+
+.icon--caret-down {
+    background-image: var(--icon-url);
+    background-repeat: no-repeat;
+    background-position:-72px -338px;
+	width: 8px;
+	height: 5px;
+}
+
+.icon--angle-left-duplicate {
+    background-image: var(--icon-url);
+    background-position: -23px -245px;
+}
+
+.icon--angle-left {
+    background-image: var(--icon-url);
+    background-repeat: no-repeat;
+    background-position: -23px -245px;
+}
+
+.icon--angle-right {
+    background-image: var(--icon-url);
+    background-repeat: no-repeat;
+    background-position: -65px -245px;
+}
+
+.icon--angle-down {
+    background-image: var(--icon-url);
+    background-repeat: no-repeat;
+    background-position: -154px -243px;
+}
+
+.icon--angle-down-2 {
+    background-image: var(--icon-url);
+    background-repeat: no-repeat;
+    background-position: -158px -246px;
+    filter: sepia(60%);
+}
+
+.icon--angle-up {
+    background-image: var(--icon-url);
+    background-repeat: no-repeat;
+    background-position: -110px -243px;
+}
+
+.icon--angle-up-2 {
+    background-image: var(--icon-url);
+    background-repeat: no-repeat;
+    background-position: -114px -247px;
+    filter: sepia(60%);
+}
+
+.icon--arrow-from-right{
+    background-image: var(--icon-url);
+    background-repeat: no-repeat;
+    background-position:-284px -416px;
+}
+
+.icon--arrow-from-left{
+    background-image: var(--icon-url);
+    background-repeat: no-repeat;
+    background-position: -328px -416px;
+}
+
+.icon--arrow-fill-up {
+    background-image: var(--icon-url);
+    background-repeat: no-repeat;
+    background-position: -330px -330px;
+}
+
+.icon--arrow-fill-down {
+    background-image: var(--icon-url);
+    background-repeat: no-repeat;
+    background-position: -418px -330px;
+}
+
+.icon--route-exact-active {
+    background-image: var(--icon-url);
+    background-repeat: no-repeat;
+    background-position: -375px -241px;
+    filter: brightness(0) invert(1);
+    transform: scale(-1,1);
+}
+/*  */
+
+.icon--close {
+    background-image: var(--icon-url);
+    background-repeat: no-repeat;
+    background-position: -366px -278px;;
+}
+
+.icon--warning {
+    background-image: var(--icon-url);
+    background-repeat: no-repeat;
+    background-position: -416px -64px;
+}
+
+.icon--toast-success {
+    background-image: var(--icon-url);
+    background-repeat: no-repeat;
+    background-position: -108px -592px;
+}
+
+.icon--toast-info {
+    background-image: var(--icon-url);
+    background-repeat: no-repeat;
+    background-position: -20px -591px;
+}
+
+.icon--toast-warning {
+    background-image: var(--icon-url);
+    background-repeat: no-repeat;
+    background-position: -152px -592px;
+}
+
+.icon--toast-error {
+    background-image: var(--icon-url);
+    background-repeat: no-repeat;
+    background-position: -64px -592px;
+}
+
+/* 14px */
+.icon--checkbox-unchecked {
+    background-image: var(--icon-url);
+    background-repeat: no-repeat;
+    background-position: -113px -377px;
+}
+
+.icon--checkbox-checked {
+    background-image: var(--icon-url);
+    background-repeat: no-repeat;
+    background-position: -157px -377px;
+}
+
+/* 18px */
+.icon--add {
+    background-image: var(--icon-url);
+    background-repeat: no-repeat;
+    background-position: -155px -111px;
+}
+
+.icon--edit {
+    background-image: var(--icon-url);
+    background-repeat: no-repeat;
+    background-position: -154px -66px;
+}
+
+.icon--calender {
+    background-image: var(--icon-url);
+    background-repeat: no-repeat;
+    background-position: -287px -67px;
+}
+
+.icon--duplicate {
+    background-image: var(--icon-url);
+    background-repeat: no-repeat;
+    background-position: -244px -112px;
+}
+
+.icon--delete {
+    background-image: var(--icon-url);
+    background-repeat: no-repeat;
+    background-position: -419px -111px;
+}
+
+.icon--clear {
+    background-image: var(--icon-url);
+    background-repeat: no-repeat;
+    background-position: -291px -247px;
+    /* background-position: -279px -250px; */
+}
+
+/* === Icon fill color */
+.fill-white {
+    filter: invert(100%) sepia(100%) saturate(0%) hue-rotate(35deg) brightness(110%) contrast(101%);
+}
+
+.fill-gray {
+    filter: invert(65%) sepia(3%) saturate(12%) hue-rotate(40deg) brightness(94%) contrast(86%);
+}
+
+
+

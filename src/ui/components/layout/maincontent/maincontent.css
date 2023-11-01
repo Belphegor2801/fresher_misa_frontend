@@ -1,0 +1,10 @@
+.main-content {
+    position: relative;
+    background-color:  #f4f7ff;
+    width: calc(100% - var(--width-sidebar));
+    min-height: calc(100vh - 44px);
+    /* top: 44px; */
+    left: var(--width-sidebar);
+    padding: 13px 19px 16px 19px;
+    transition-duration: 0.5s;
+}

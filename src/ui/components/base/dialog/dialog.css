@@ -1,0 +1,55 @@
+.dialog {
+    opacity: 1;
+    width: 400px;
+    height: 180px;
+    position: absolute;  
+    left: 50%;    
+    top: 50%;                      
+    transform: translate(-50%, -50%);
+    background-color: #fff;
+    border-radius: 4px;
+    z-index: 19999;
+}
+
+.dialog__body {
+    display: flex;
+    align-items: center;
+    justify-content: left;
+    height: 110px;
+    padding: 20px 18px 0 16px;
+}
+
+.dialog__body .dialog__body--icon-container {
+    min-width: 80px;
+    height: 40px;
+    display: flex;
+    align-items:  center;
+    justify-content: center;
+    transform: scale(1.8);
+}
+
+.dialog__body p {
+    /* max-width: 240px; */
+    line-height: 20px;
+    text-align: justify;
+}
+
+.dialog__footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: right;
+    padding: 35px 16px;
+    border-bottom-right-radius: var(--border-radius);
+    border-bottom-left-radius: var(--border-radius);
+}
+
+.dialog__footer .dialog__footer--buttons{
+    margin-left: auto;
+    display: flex;
+    flex-direction: row-reverse;
+    gap: 10px;
+}

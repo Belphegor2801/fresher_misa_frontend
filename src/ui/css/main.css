@@ -1,0 +1,157 @@
+@import url(./icon.css);
+
+@import url(http://fonts.googleapis.com/css?family=Roboto:400,100,100italic,300,300ita‌​lic,400italic,500,500italic,700,700italic,900italic,900);
+
+/* Font chữ */
+@font-face {
+    /* Font thường */
+    font-family: "GoogleSans";
+    src: url(../assets//font/05a65153efe56028d343c10b53faa583.ttf) format("truetype");
+}
+
+* {
+    font-family: 'Roboto', sans-serif;
+    font-size: 13px;
+    box-sizing: border-box;
+    color: #212121;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+}
+
+/* Các giá trị chung */
+:root {
+    --color-primary: #1aa4c8;
+    --color-background-hover: #e6e6e6;
+    --color-combo-box-hover: rgb(199, 224, 245);
+    --color-border-default: #afafaf;
+    --color-border-hover: #41a3bc;
+    --color-border-focus: #075163;
+    --color-button-hover: #56b5cd;
+    --color-button-focus: #075163;
+    --color-button-outline: #3f8799;
+    --color-checkbox-hover: #8dcada;
+    --color-sidebar: #1c3048;
+    --border-radius: 2.5px;
+    --height-header: 44px;
+    --width-sidebar: 66px;
+    --width-sidebar-extend: 210px;
+    --width-sidebar-collapse: 66px;
+    --height-default: 36px;
+    --icon-url: url('../assets//icon//qlts-icon.svg');
+    --loading-icon-url: url('../assets//icon//loading-icon.svg');
+}
+
+/* Text font-size */
+.font-13 {
+    font-size: 13px;
+}
+
+/* Text color */
+.color--default {
+    color: #212121;
+}
+
+.color--white {
+    color: white;
+}
+
+/* text-align */
+.ta-left {
+    text-align: left;
+}
+
+.ta-right{
+    text-align: right;
+}
+
+.ta-center {
+    text-align: center;
+}
+
+.float-right {
+    float: right;
+}
+
+/* font-size */
+.font--11 {
+    font-size: 11px;
+}
+/*  */
+
+/* Margin */
+.ml-4 {
+    margin-left: 4px;
+}
+
+.mr-4 {
+    margin-right: 4px;
+}
+
+.disabled {
+    cursor: not-allowed;
+    opacity: 0.6;
+}
+
+.bg-red {
+    background-color: red;
+}
+
+.cursor--pointer {
+    cursor: pointer;
+}
+/*  */
+#app{
+    overflow: auto !important;
+}
+
+.dialog-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 100;
+}
+
+.dialog-background {
+    background-color: black;
+    width: 100%;
+    height: 100%;
+    opacity: 0.2;
+    filter:brightness(50%);
+}
+
+.toast_container {
+    position: absolute;
+    right: 10px;
+    bottom: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+
+/* Scroll Bar */
+  /* width */
+  ::-webkit-scrollbar {
+    width: 5px;
+  }
+  
+  /* Track */
+  ::-webkit-scrollbar-track {
+    background: #bbb;
+  }
+  
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    background: #888;
+  }
+  
+  /* Handle on hover */
+  ::-webkit-scrollbar-thumb:hover {
+    background: #555;
+  }
