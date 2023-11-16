@@ -4,7 +4,7 @@
             <input type="checkbox" ref="checkbox" v-model="valueOutput" :value="value" 
                 :checked="this.checked" hidden
                 :disabled="disabled? 'disabled': ''">
-            <div v-if="checked" class="icon--14 icon--checkbox-checked"
+            <div v-if="this.checked" class="icon--14 icon--checkbox-checked"
                 :class="disabled? 'icon--disabled': 'icon--button'"
                  @click="onUncheck"></div>
             <div v-else class="icon--14 icon--checkbox-unchecked" 
@@ -29,6 +29,10 @@
             value: {
                 default: null,
             },
+            // Key để so sánh 2 object
+            objectKey: {
+                type: String,
+            },
             // Giá trị nhập vào
             valueInput: {
                 value: [Boolean],
@@ -44,6 +48,13 @@
             this.valueOutput = this.valueInput
         },
         watch: {
+            "valueInput.length": function(val) {
+                // Nếu nhiều checkbox dùng chung 1 v-model
+                if (this.value) {
+                    this.updateStatus()
+                }
+            },
+
             valueInput: function(val) {
                 this.valueOutput = val
             },
@@ -51,13 +62,7 @@
             valueOutput: function(val) {
                 // Nếu nhiều checkbox dùng chung 1 v-model
                 if (this.value) {
-                    var array = Array.from(this.valueOutput);
-                    this.checked = false,
-                    array.forEach(element => {
-                        if (element == this.value) {
-                            this.checked = true
-                        }
-                    });
+                    this.updateStatus()
                 }
                 // Nếu là checkbox riêng
                 else {
@@ -74,6 +79,24 @@
         },
         methods: {
             /**
+             * Cập nhât status
+             * @return không
+             * createdBy: NXHinh (28/09/2023)
+             */
+            updateStatus(){
+                this.checked = false;
+                if (this.objectKey) {
+                    if (this.valueOutput.map(x => x[this.objectKey]).includes(this.value[this.objectKey])) {
+                        this.checked = true
+                    }
+                }   
+                else {
+                    if (this.valueOutput.includes(this.value)) {
+                        this.checked = true
+                    }
+                }
+            },
+            /**
              * Xử lý khi uncheck 
              * @return không
              * createdBy: NXHinh (28/09/2023)
@@ -84,16 +107,23 @@
                     // Nếu nhiều checkbox dùng chung 1 v-model
                     if (this.value){
                         var val = this.value
-                        this.valueOutput = this.valueOutput.filter(function(item) {
-                            return item !== val
-                        })
+                        if (this.objectKey) {
+                            var key = this.objectKey
+                            this.valueOutput = this.valueOutput.filter(function(item) {
+                                return item[key] !== val[key]
+                            })
+                        }   
+                        else {
+                            this.valueOutput = this.valueOutput.filter(function(item) {
+                                return item !== val
+                            })
+                        }
                     }
                     // Nếu là checkbox riêng
                     else {
                         this.valueOutput = !this.valueOutput
                     }  
                 }
-                
             },
 
             /**

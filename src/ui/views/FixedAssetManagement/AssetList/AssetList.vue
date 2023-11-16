@@ -121,7 +121,7 @@
                         <!-- <input type="checkbox" v-model="store.selected" :value="item.fixed_asset_id" /> -->
                         <m-checkbox v-model:valueInput="store.selected" :value="item.fixed_asset_id" ></m-checkbox>
                     </td>
-                    <td class="ta-center">{{ index + 1 + (this.store.page - 1) * (this.store.recordPerPage)  }}</td>
+                    <td class="ta-center">{{ index + 1 + (this.store.pagination.page - 1) * (this.store.pagination.recordPerPage)  }}</td>
                     <td class="ta-left">{{ item.fixed_asset_code }}</td>
                     <td class="ta-left">{{ item.fixed_asset_name }}</td>
                     <td class="ta-left">{{ item.fixed_asset_category_name }}</td>
@@ -174,19 +174,19 @@
                                     :tabindex="10"
                                     :placeholder=this.store.getRecordPerPageList[0].label.toString()
                                     :options=this.store.getRecordPerPageList
-                                    v-model:valueInput="this.store.recordPerPage"
+                                    v-model:valueInput="this.store.pagination.recordPerPage"
                                 />   
                             </div>
                             <ul class="table__pagination--page">
                                 <li class="table__pagination--page-button">
-                                    <div class="icon--20 icon--button icon--angle-left" @click="prevPage"
-                                        :class="{'disabled': this.store.page == 1}"></div>
+                                    <div class="icon--20 icon--button icon--angle-left" @click="this.store.pagination.prevPage"
+                                        :class="{'disabled': this.store.pagination.page == 1}"></div>
                                 </li>
-                                <li class="table__pagination--page-button"><p>{{ this.store.page }} </p></li>
+                                <li class="table__pagination--page-button"><p>{{ this.store.pagination.page }} </p></li>
 
                                 <li class="table__pagination--page-button">
-                                    <div class="icon--20 icon--button icon--angle-right" @click="nextPage"
-                                        :class="{'disabled': this.store.page >= this.store.getMaxPage}"></div>
+                                    <div class="icon--20 icon--button icon--angle-right" @click="this.store.pagination.nextPage"
+                                        :class="{'disabled': this.store.pagination.page >= this.store.getMaxPage}"></div>
                                 </li>
                             </ul>
                         </div>
@@ -209,10 +209,10 @@
             :x="contextMenuPosition.x"
             :y="contextMenuPosition.y"
             v-model:show="showContextMenu"
-            @addAsset="onShowAssetForm()"
-            @editAsset="onShowAssetForm(this.contextMenuTarget)"
-            @deleteAsset="onShowContextMenuDeleteConfirmDialog()"
-            @duplicateAsset="onShowAssetForm(this.contextMenuTarget, this.$MEnum.FormMode.Duplicate)"
+            @add="onShowAssetForm()"
+            @edit="onShowAssetForm(this.contextMenuTarget)"
+            @delete="onShowContextMenuDeleteConfirmDialog()"
+            @duplicate="onShowAssetForm(this.contextMenuTarget, this.$MEnum.FormMode.Duplicate)"
             :tool="{
                 add: true,
                 edit: true,
@@ -293,19 +293,19 @@
             'store.items': function(){
                 this.store.calculateTotal();
             },
-            'store.page': function(){
+            'store.pagination.page': function(){
                 this.store.get();
             },
-            'store.recordPerPage': function(newVal, oldVal){
+            'store.pagination.recordPerPage': function(newVal, oldVal){
                 var maxScrollValue = this.$refs.assetsTable.scrollHeight - 847;
                 var ratio = (this.currentScrollValue ?? 0) / maxScrollValue;
 
                 var itemCountCurrentPage = Math.min(this.store.items.length, oldVal)
-                this.store.page = Math.ceil((ratio * itemCountCurrentPage + oldVal * (this.store.page - 1))/ newVal);
+                this.store.pagination.page = Math.ceil((ratio * itemCountCurrentPage + oldVal * (this.store.pagination.page - 1))/ newVal);
 
                 var totalPage = this.store.getMaxPage;
-                if (this.store.page > totalPage) this.store.page = totalPage;
-                if (this.store.page == 0) this.store.page = 1;
+                if (this.store.pagination.page > totalPage) this.store.pagination.page = totalPage;
+                if (this.store.pagination.page == 0) this.store.pagination.page = 1;
 
                 this.store.get();
                 this.$refs.assetsTable.scrollTop = 0
@@ -352,7 +352,7 @@
              * createdBy: NXHinh (28/09/2023)
              */
             async applyFilter() {
-                this.store.page = 1;
+                this.store.pagination.page = 1;
                 await this.store.getTotalRecords()
                 await this.store.get();
             },
@@ -364,8 +364,8 @@
              */
              prevPage(){
                 console.log("prevPage")
-                this.store.page -= 1;
-                if (this.store.page < 1) this.store.page = 1
+                this.store.pagination.page -= 1;
+                if (this.store.pagination.page < 1) this.store.pagination.page = 1
             },
 
             /**
@@ -376,8 +376,8 @@
             nextPage(){
                 console.log("nextPage")
                 var totalPage = this.store.getMaxPage;
-                this.store.page += 1;
-                if (this.store.page > totalPage) this.store.page = totalPage
+                this.store.pagination.page += 1;
+                if (this.store.pagination.page > totalPage) this.store.pagination.page = totalPage
             },
 
             /**
@@ -417,7 +417,7 @@
              * createdBy: NXHinh (18/09/2023)
              */
             async onDelete() {
-                var ids = this.store.selected[0]
+                var ids = this.store.selected
                 await this.store.deleteMany(ids)
                 if (!this.store.error) {
                     let successMsg = this.$MResource.SuccessMsg.DeletedSuccess
@@ -432,7 +432,7 @@
                 await this.store.get()
                 // Kiểm tra lại giá trị trang
                 var totalPage = this.store.getMaxPage;
-                if (this.store.page > totalPage) this.store.page = totalPage
+                if (this.store.pagination.page > totalPage) this.store.pagination.page = totalPage
             },
 
             /**
@@ -453,7 +453,7 @@
                 await this.store.get()
                 // Kiểm tra lại giá trị trang
                 var totalPage = this.store.getMaxPage;
-                if (this.store.page > totalPage) this.store.page = totalPage
+                if (this.store.pagination.page > totalPage) this.store.pagination.page = totalPage
             },
 
             /**
@@ -467,7 +467,7 @@
 
             /**
              * hiện context menu
-             * @param {*} fixed_asset_id fixed_asset_id của item
+             * @param {*}  của item
              * createdBy: NXHinh (30/09/2023)
              */
             onShowContextMenu(item, event) {
@@ -554,10 +554,12 @@
              */
             selectAll: {
                 get: function () {
-                    return this.store.items ? this.store.selected.length == this.store.items.length && this.store.selected.length > 0 : false;
+                    var selectedInThisPage = 
+                    this.store.selected.filter(x => this.store.items.map(i => i.fixed_asset_id).includes(x));
+                    return this.store.items ? selectedInThisPage.length == this.store.items.length && selectedInThisPage.length > 0 : false;
                 },
                 set: function (value) {
-                    var selected = [];
+                    var selected = this.store.selected.filter(x => !this.store.items.map(i => i.fixed_asset_id).includes(x));;
 
                     if (value) {
                         this.store.items.forEach(function (asset) {

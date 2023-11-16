@@ -44,9 +44,11 @@
                 <div class="icon--button" :class="iconArrow"></div>
             </div> -->
             
-            <div v-if="iconAfter" class="input__icon--after-container" @click="iconAfterFunction">
+            <div v-if="iconAfter" class="input__icon--after-container" 
+                :class="disabled? 'cursor--not-allowed':''"
+                @click="iconAfterFunction">
                 <div v-if="iconAfter" class="input__icon--after icon--24" 
-                :class=iconAfter>
+                :class="iconAfter">
             </div>
             </div>
         </div>

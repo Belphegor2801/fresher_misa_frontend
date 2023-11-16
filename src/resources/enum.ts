@@ -30,6 +30,13 @@ export const MEnum = {
         Edit: 2,
         Duplicate: 3,
     },
+    ActionType: {
+        Get: 0,
+        Add: 1,
+        Edit: 2,
+        Duplicate: 3,
+        Delete: 4,
+    },
     ButtonType: {
         MainButton: 1,
         SubButton: 2,

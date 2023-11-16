@@ -65,6 +65,12 @@
         width: 20%;
     }
 
+    .table__columns--tool {
+        display: flex;
+        justify-content: center;
+        gap: 4px;;
+    }
+
     .table__td--combo-box {
         overflow: unset !important;
         padding: 0 1px;
@@ -122,7 +128,7 @@
     }
 
     .table--asset-list tbody tr:has(input[type="checkbox"]:checked){
-        background-color: #ddd;
+        background-color: rgba(26, 164, 200, .2);
     }
 
     .table--asset-list input[type="checkbox"]{
@@ -130,19 +136,12 @@
         height: 14px;
     }
 
-    .table--asset-list .hide{
-        display: flex;
-        justify-content: center;
-        gap: 4px;;
-        opacity: 0;
-    }
-
     .table--asset-list tbody tr:hover:not(.ignore-focus), .table--asset-list tr:focus:not(.ignore-focus){
-        background-color: rgba(26, 164, 200, .2) !important;
+        background-color: rgba(26, 164, 200, .3) !important;
     }
 
     .table--asset-list tbody tr.active{
-        background-color: rgba(26, 164, 200, .2) !important;
+        background-color: rgba(26, 164, 200, .3) !important;
     }
 
     .table--asset-list tbody tr:hover:not(.ignore-focus) .hide, .table--asset-list tr:focus:not(.ignore-focus) .hide{
@@ -161,7 +160,7 @@
     .table--asset-list tfoot{
         position: sticky;
         bottom: 0px;
-        background-color: #eee;
+        background-color: #f6f6f6;
     }
 
     .table--asset-list tfoot tr{

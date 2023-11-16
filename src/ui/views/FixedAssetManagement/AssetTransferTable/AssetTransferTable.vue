@@ -1,8 +1,14 @@
 <template>
     <div class="container">
         <div class="tool-bar">
-            <div class="tool-bar__text">
-                Điều chuyển <i class="icon--20 icon--recycle"></i>
+            <div v-if="this.store.selected.length == 0" class="tool-bar__text font--20 bold">
+                Điều chuyển 
+                <i  class="icon--20 icon--button icon--recycle" @click="reloadData"></i>
+            </div>
+            <div v-else class="tool-bar__text font--16">
+                <a class="font--16"> Đã chọn:<b class="font--16"> {{ this.store.selected.length }} </b></a>
+                <a class="font--16 bold color--blue cursor--pointer" @click="clearSelected"> Bỏ chọn </a> 
+                <button class="tool-bar__button--delete" @click="onShowDeleteConfirmDialog()"> Xóa </button>
             </div>
             <div class="tool-bar__button-bar">
                 <m-input 
@@ -19,7 +25,7 @@
 
                 <m-pri-button text="Thêm chứng từ" 
                     :tabindex="4"
-                    icon="icon--add fill-white" @click="onShowAssetTransferForm()">
+                    icon="icon--add fill-white" @click="onShowAssetTransferForm(this.$MEnum.FormMode.Add)">
                 </m-pri-button>
                 <div>
                     <m-tooltip text="Hỗ trợ">
@@ -83,8 +89,8 @@
                 <tr v-for="(item, index) in this.store.items" :key="item.document_id" 
                     @contextmenu="onShowContextMenu(item, $event)"
                     class="cursor--pointer"
-                    :class="this.documentSelected == item.document_id? 'active': ''"
-                    @click="() => onSelectDocument(item.document_id)" >
+                    :class="this.documentSelected.document_id == item.document_id? 'active': ''"
+                    @click="() => onSelectDocument(item)" >
                     <td class="ta-center">
                         <!-- <input type="checkbox" v-model="store.selected" :value="item.fixed_asset_id" /> -->
                         <m-checkbox v-model:valueInput="store.selected" :value="item.document_id" ></m-checkbox>
@@ -111,7 +117,7 @@
                         {{ item.note }}
                     </td>
                     <td class="ta-center">
-                        <div class="hide">
+                        <div class="table__columns--tool">
                             <m-tooltip text="Chỉnh sửa chứng từ">
                                 <template #content>
                                     <div class="icon-container--circle"
@@ -293,6 +299,19 @@
     </div>
 
     <Teleport to="#app">
+        <m-context-menu
+            v-if="showContextMenu"
+            :x="contextMenuPosition.x"
+            :y="contextMenuPosition.y"
+            v-model:show="showContextMenu"
+            @edit="onShowAssetTransferForm(this.$MEnum.FormMode.Edit, this.contextMenuTarget.document_id)"
+            @delete="onShowDeleteConfirmDialog(this.documentSelected)"
+            :tool="{
+                edit: true,
+                delete: true,
+            }"
+        ></m-context-menu>
+
         <m-dialog v-if="showDeleteConfirmDialog"
             :message="deleteConfirmMessage"
             :buttonText="this.$MResource.Dialog.Delete.BtnConfirm"
@@ -343,7 +362,7 @@
                 this.store.calculateTotal();
                 if (val.length > 0) {
                     if (!this.documentSelected) {
-                        this.documentSelected = val[0].document_id
+                        this.documentSelected = val[0]
                         this.getDocumentDetails()
                     }
                 }
@@ -391,6 +410,12 @@
 
         data() {
             return {
+                showContextMenu: false,
+                contextMenuPosition: {
+                    x: 0, y: 0
+                },
+                deleteType: 'many',
+
                 showDetail: false,
                 showForm: false,
                 documentSelected: "",
@@ -402,6 +427,40 @@
 
         methods: {
             /**
+             * reload data
+             * createdBy: NXHinh (14/11/2023)
+             */
+            async reloadData() {
+                this.store.items = []
+                this.detailsStore.items = []
+                await this.store.getTotalRecords()
+                await this.store.get()
+            },
+            /**
+             * hiện context menu
+             * @param {*} item
+             * createdBy: NXHinh (30/09/2023)
+             */
+             onShowContextMenu(item, event) {
+                try {
+                    event.preventDefault();
+                    // chặn event click outside
+                    event.stopPropagation();
+
+                    // đối tượng đc target
+                    this.documentSelected = item
+                    if (this.showDetail) this.onShowDetails()
+                    // gán vị trí của context menu
+                    this.contextMenuPosition.x = event.x;
+                    this.contextMenuPosition.y = event.y;
+
+                    this.showContextMenu = true;
+                } catch (error) {
+                    console.log("showContextMenu ~ error:", error);
+                }
+            },
+
+            /**
              * Lấy danh sách dữ liệu sau filter
              * @return không
              * createdBy: NXHinh (28/09/2023)
@@ -410,6 +469,15 @@
                 this.store.page = 1;
                 await this.store.getTotalRecords()
                 await this.store.get();
+            },
+
+            /**
+             * Bỏ chọn tất cả
+             * @return không
+             * createdBy: NXHinh (14/11/2023)
+             */
+            clearSelected() {
+                this.store.selected = [];
             },
 
             /**
@@ -426,18 +494,19 @@
              * @return không
              * createdBy: NXHinh (18/10/2023)
              */
-            async onShowAssetTransferForm(formMode = this.$MEnum.FormMode.Add, document_id = "") {
+            async onShowAssetTransferForm(formMode = this.$MEnum.FormMode.Add, document_id="") {
+                
                 if (formMode == this.$MEnum.FormMode.Edit) {
-                    await this.store.getById(document_id)
-                    this.detailsStore.document_id = document_id
-                    await this.detailsStore.get()
-                    this.$router.push("transfer/form")
+                    // await this.store.getById(document_id)
+                    // this.detailsStore.document_id = document_id
+                    // await this.detailsStore.get()
+                    this.$router.push(`transfer/edit/${document_id}`)
                 }
                 else {
-                    await this.store.newItem()
-                    await this.store.getNewCode()
-                    this.detailsStore.items = []
-                    this.$router.push("transfer/form")
+                    // await this.store.newItem()
+                    // await this.store.getNewCode()
+                    // this.detailsStore.items = []
+                    this.$router.push("transfer/add")
                 }
             },
 
@@ -446,8 +515,8 @@
              * @return không
              * createdBy: NXHinh (25/10/2023)
              */ 
-            onSelectDocument(document_id) {
-                this.documentSelected = document_id
+            onSelectDocument(document) {
+                this.documentSelected = document
                 if (this.showDetail) this.onShowDetails()
             },
 
@@ -468,7 +537,7 @@
              * createdBy: NXHinh (25/10/2023)
              */
             getDocumentDetails() {
-                this.detailsStore.document_id = this.documentSelected
+                this.detailsStore.document_id = this.documentSelected.document_id
                 if (this.detailsStore.document_id) {
                     this.detailsStore.get()
                 }
@@ -482,10 +551,16 @@
              * @return không
              * createdBy: NXHinh (25/10/2023)
              */
-            onShowDeleteConfirmDialog(document) {
-                this.store.selected.push(document.document_id)
+            onShowDeleteConfirmDialog(document = '') {
+                if (!document) {
+                    this.deleteConfirmMessage = `${this.store.selected.length} chứng từ đã được chọn. Bạn có muốn xóa những chứng từ này khỏi dánh sách?`
+                    this.deleteType = 'many'
+                }
+                else {
+                    this.deleteConfirmMessage = `Bạn có muốn xóa chứng từ ${document.document_code} không?`
+                    this.deleteType = 'one'
+                }
                 this.showDeleteConfirmDialog = true
-                this.deleteConfirmMessage = `Bạn có muốn xóa chứng từ ${document.document_code} không?`
             },
 
             /**
@@ -498,13 +573,19 @@
             },
 
             /**
-             * Xóa chứng từ
+             * Xóa  chứng từ
              * @return không
              * createdBy: NXHinh (25/10/2023)
              */
             async onDeleteDocument() {
-                var ids = this.store.selected
-                await this.store.deleteMany(ids)
+                if (this.deleteType == 'one') {
+                    await this.store.delete(this.documentSelected.document_id)
+                }
+                else {
+                    var ids = this.store.selected
+                    await this.store.deleteMany(ids)
+                }
+                
 
                 if (!this.store.error) {
                     let successMsg = this.$MResource.SuccessMsg.DeletedSuccess
@@ -535,10 +616,11 @@
              */
             selectAll: {
                 get: function () {
-                    return this.store.items ? this.store.selected.length == this.store.items.length && this.store.selected.length > 0 : false;
+                    const selectedInThisPage = this.store.selected.filter(x => this.store.items.map(i => i.document_id).includes(x));
+                    return this.store.items ? selectedInThisPage.length == this.store.items.length && selectedInThisPage.length > 0 : false;
                 },
                 set: function (value) {
-                    var selected = [];
+                    var selected = this.store.selected.filter(x => !this.store.items.map(i => i.document_id).includes(x));;
 
                     if (value) {
                         this.store.items.forEach(function (asset) {

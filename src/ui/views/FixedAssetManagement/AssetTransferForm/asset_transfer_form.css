@@ -53,6 +53,36 @@
     gap: 30px;
 }
 
+.at-form__body--toolbar {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.tool-bar__text {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.tool-bar__text i{
+    transform: scale(1.4);
+}
+
+.tool-bar__button--delete {
+    padding: 8px 20px;
+    color: red;
+    border: 1px solid red;
+    border-radius: 2.5px;
+    cursor: pointer;
+    background-color: transparent;
+}
+
+.tool-bar__button--delete:hover {
+    color: white;
+    background-color: red;
+}
+
 .at-form__body--general {
     background-color: #fff;
     border-radius: 2.5px;
@@ -74,6 +104,7 @@
 
     .at-form__body--options .options__checkbox {
         display: flex;
+        gap: 30px;
     }
 
     .at-form__body--options .options__deputy {

@@ -26,6 +26,7 @@
                                     v-on:keyup.enter="nextFocus('fixed_asset_name')"
                                     v-model:valueInput=store.item.fixed_asset_code
                                     :required="true"
+                                    :disabled="disabled"
                                     :focus="true"> 
                                 </m-input>
                             </td>
@@ -39,6 +40,7 @@
                                     :tabindex="12"
                                     :placeholder=this.$MResource.Form.FormInputLabel.AssetName
                                     v-model:valueInput=store.item.fixed_asset_name
+                                    :disabled="disabled"
                                     :required="true">
                                 </m-input>
                             </td>
@@ -54,6 +56,7 @@
                                     :placeholder=this.$MResource.Form.FormInputLabel.AssetDepartmentId
                                     :required="true"
                                     v-model:valueInput=store.item.department_code
+                                    :disabled="disabled"
                                     :options=this.departmentStore.codeList >
                                 </m-combo-box>
                             </td>
@@ -78,6 +81,7 @@
                                     :placeholder=this.$MResource.Form.FormInputLabel.AssetTypeId
                                     :required="true"
                                     v-model:valueInput=store.item.fixed_asset_category_code
+                                    :disabled="disabled"
                                     :options=this.fixedAssetCategoryStore.codeList > 
                                 </m-combo-box>
                             </td>
@@ -104,6 +108,7 @@
                                     :tabindex="15"
                                     :hasArrow="true"
                                     v-model:valueInput=store.item.quantity
+                                    :disabled="disabled"
                                     :required="true" > 
                                 </m-input>
                             </td>
@@ -117,6 +122,7 @@
                                     :tabindex="16"
                                     formatType="int"
                                     v-model:valueInput=store.item.cost
+                                    :disabled="disabled"
                                     :required="true" > 
                                 </m-input>
                             </td>
@@ -130,6 +136,7 @@
                                     v-on:keyup.enter="nextFocus('depreciation_rate')"
                                     :tabindex="17"
                                     v-model:valueInput=store.item.life_time
+                                    :disabled="disabled"
                                     :required="true" >
                                 </m-input>
                             </td>
@@ -147,6 +154,7 @@
                                     :tabindex="18"
                                     :hasArrow="true"
                                     v-model:valueInput=store.item.depreciation_rate
+                                    :disabled="disabled"
                                     :required="true"
                                 >
                                 </m-input>
@@ -161,6 +169,7 @@
                                     formatType="int"
                                     :tabindex="19"
                                     v-model:valueInput=store.item.depreciation_value_year
+                                    :disabled="disabled"
                                     :required="true"
                                 > 
                                 </m-input>
@@ -187,6 +196,7 @@
                                     type="date"
                                     :tabindex="20"
                                     v-model:valueInput=store.item.purchase_date
+                                    :disabled="disabled"
                                     :required="true" > 
                                 </m-datepicker>
                             </td>
@@ -199,6 +209,7 @@
                                     type="date"
                                     :tabindex="21"
                                     v-model:valueInput=store.item.start_using_date
+                                    :disabled="disabled"
                                     :required="true" > 
                                 </m-datepicker>
                             </td>
@@ -276,11 +287,15 @@
             },
             fixedAssetCategoryStore: {
                 type: Object,
+            },
+            transferDocumentStore: {
+                type: Object,
             }
         },
     
         data() {
             return {
+                disabled: false,
                 submitted: false,
                 showDialog: false,
                 formName: this.store.formMode == this.$MEnum.FormMode.Add?
@@ -290,13 +305,25 @@
             }
         },
 
-        mounted () {
+        async mounted () {
+            /**
+             * Kiểm tra được phép sửa hay không
+             * @return không
+             * author: NXHinh (11/11/2023)
+             */
+            var documents = await this.transferDocumentStore.getByFixedAssetId(this.store.item.fixed_asset_id);
+            if (documents.length > 0) {
+                this.disabled = true
+            }
+
             /**
              * Tự động focus
              * @return không
              * author: NXHinh (21/08/2023)
              */
-            this.$refs.fixed_asset_id.focusOnInput();
+             if (!this.disabled) {
+                this.$refs.fixed_asset_id.focusOnInput();
+            }
         },
 
         watch: {

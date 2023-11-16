@@ -10,6 +10,7 @@
         :store="fixedAssetStore"
         :departmentStore="departmentStore"
         :fixedAssetCategoryStore="fixedAssetCategoryStore"
+        :transferDocumentStore = "transferDocumentStore"
     ></AssetForm>
 </template>
 
@@ -19,6 +20,7 @@
     import FixedAssetStore from "@/core/store/FixedAssetStore.ts";
     import DepartmentStore from "@/core/store/DepartmentStore.ts";
     import FixedAssetCategoryStore from "@/core/store/FixedAssetCategoryStore.ts";
+    import TransferDocumentStore from "@/core/store/TransferDocumentStore.ts";
 
     export default {
         name: "AssetManagerIndex",
@@ -28,8 +30,10 @@
             const departmentStore = DepartmentStore();
             const fixedAssetCategoryStore = FixedAssetCategoryStore();
             const fixedAssetStore = FixedAssetStore();
+
+            const transferDocumentStore = TransferDocumentStore();
             
-            return {fixedAssetStore, departmentStore, fixedAssetCategoryStore}
+            return {fixedAssetStore, departmentStore, fixedAssetCategoryStore, transferDocumentStore}
         },
 
         async beforeCreate() {

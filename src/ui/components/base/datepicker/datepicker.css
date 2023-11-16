@@ -32,6 +32,10 @@ label a {
     top: 8px;
     right: 12px;
 }
+
+.disabled{
+    cursor: not-allowed;
+}
 /*  */
 .text--error {
     margin-top: 4px;

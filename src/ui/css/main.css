@@ -58,6 +58,15 @@ body {
     color: white;
 }
 
+.color--blue {
+    color: #41a3bc;
+}
+
+.color--red {
+    color: red;
+}
+
+
 /* text-align */
 .ta-left {
     text-align: left;
@@ -76,8 +85,20 @@ body {
 }
 
 /* font-size */
+.font--20 {
+    font-size: 20px;
+}
+
+.font--16 {
+    font-size: 16px;
+}
+
 .font--11 {
     font-size: 11px;
+}
+
+.bold {
+    font-weight: bold;
 }
 /*  */
 
@@ -95,12 +116,17 @@ body {
     opacity: 0.6;
 }
 
+/* bg */
 .bg-red {
     background-color: red;
 }
-
+/* Cursor */
 .cursor--pointer {
     cursor: pointer;
+}
+
+.cursor--not-allowed {
+    cursor: not-allowed !important;
 }
 /*  */
 #app{

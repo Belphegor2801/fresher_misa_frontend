@@ -16,6 +16,7 @@
                     :default-value="new Date(this.valueOutput)"
                     :popper-options="{ boundariesElement: 'body' }"
                     :class="{'elDatePickerClass': 1, 'error': isError}"
+                    :disabled="disabled"
                     ref="elDatePicker"
                     @keydown="keyDownEvent($event)"
                     @blur="validateInput()"
@@ -24,7 +25,10 @@
                 </ElDatePicker>
             </ElConfigProvider>
 
-            <i class="icon--18 icon--button icon--calender" @click="focusOnInput()"></i>
+            <i class="icon--18 icon--button icon--calender" 
+                :class="disabled? 'disabled':''"
+                @click="focusOnInput()"
+            ></i>
         </div>
 
         <p class="text--error" :class="{'error-hidden': !isError}"> {{ errorText }}</p>
@@ -80,9 +84,9 @@ export default {
             default: "",
         },
         // disable input
-        disable: {
+        disabled: {
             type: Boolean,
-            default: false,
+            default: false
         },
         width: {
             type: String,
@@ -108,7 +112,12 @@ export default {
 
     watch: {
         valueOutput: function(val) {
-            this.$emit("update:valueInput", val);
+            const time = new Date()
+            try {
+                val.setHours(time.getHours(), time.getMinutes(), time.getSeconds())
+            }
+            catch {}
+            this.$emit("update:valueInput", val );
         },
         valueInput: function(val) {
             this.valueOutput = val

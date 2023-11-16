@@ -1,3 +1,4 @@
+import { Recipient } from './../entities/Recipient';
 import { defineStore} from "pinia";
 import useStore from "element-plus/es/components/table/src/store/index.mjs";
 import { TransferDocumentRepository } from "@/core";
@@ -41,6 +42,8 @@ const TransferDocumentStore = defineStore({
         formOpen: false,
         itemId: "",
         item: new TransferDocument(),
+
+        // Chi tiết 
         itemDetails: new Array<TransferDocumentDetails>(),
     }),
     getters: {
@@ -161,13 +164,16 @@ const TransferDocumentStore = defineStore({
          * @return không
          * createdBy: NXHinh (20/09/2023)
          */
-        async add(details: Array<any>) {
+        async add(details: Array<any>, recipients: Array<any> = []) {
             this.loading = true;
             try {
                 // Tạo danh sách tài sản thêm
-                console.log(details)
+                // console.log(details)
                 var asset_list: { fixed_asset_id: any; department_before_id: any; department_before_name: any; department_after_id: any; department_after_name: any; reason: any; }[] = [];
-                
+                var recipient_list: { recipient_name: any; recipient_index: any; department: any; department_position: any}[] = [];
+
+                this.item.cost = 0;
+                this.item.remaining_value = 0;
                 details.forEach(item => {
                     asset_list.push({
                         fixed_asset_id: item.fixed_asset_id,
@@ -181,6 +187,15 @@ const TransferDocumentStore = defineStore({
                     this.item.remaining_value += item.remaining_value;
                 });
 
+                recipients.forEach((item, index) => {
+                    recipient_list.push({
+                        recipient_name: item.recipient_name,
+                        recipient_index: index,
+                        department: item.department,
+                        department_position: item.department_position,
+                    })
+                })
+
                 let body = {
                     document_code: this.item.document_code,
                     transfer_date: this.item.transfer_date,
@@ -190,11 +205,12 @@ const TransferDocumentStore = defineStore({
                     tracked_year: this.item.tracked_year,
                     note: this.item.note,
                     fixed_asset_list: asset_list,
+                    recipients: recipient_list,
                 };
 
                 var bodyJson = JSON.stringify(body)
 
-                console.log(bodyJson);
+                console.log(bodyJson)
 
                 await itemRepository.addDocument(bodyJson);
             }
@@ -211,10 +227,58 @@ const TransferDocumentStore = defineStore({
          * @return không
          * createdBy: NXHinh (20/09/2023)
          */
-        async update() {
+        async update(details: Array<any>, recipients: Array<any> = []) {
             this.loading = true;
             try {
-                await itemRepository.update(this.itemId, this.item);
+                // Tạo danh sách tài sản thêm
+                // console.log(details)
+                var asset_list: {document_details_id: any; document_id: any; fixed_asset_id: any; department_before_id: any; department_before_name: any; department_after_id: any; department_after_name: any; reason: any; }[] = [];
+                var recipient_list: { recipient_name: any; recipient_index: any; department: any; department_position: any}[] = [];
+
+                this.item.cost = 0;
+                this.item.remaining_value = 0;
+                details.forEach(item => {
+                    asset_list.push({
+                        document_details_id: item.document_details_id,
+                        document_id: item.document_id,
+                        fixed_asset_id: item.fixed_asset_id,
+                        department_before_id: item.department_before_id,
+                        department_before_name: item.department_before_name,
+                        department_after_id: item.department_after_id,
+                        department_after_name: item.department_after_name,
+                        reason: item.reason?? "",
+                    });
+                    this.item.cost += item.cost;
+                    this.item.remaining_value += item.remaining_value;
+                });
+
+                for (var i = 0; i < recipients.length; i++){
+                    recipient_list.push({
+                        recipient_name: recipients[i].recipient_name,
+                        recipient_index: i,
+                        department: recipients[i].department,
+                        department_position: recipients[i].department_position,
+                    })
+                }
+
+                let body = {
+                    document_id: this.item.document_id,
+                    document_code: this.item.document_code,
+                    transfer_date: this.item.transfer_date,
+                    document_date: this.item.document_date,
+                    cost: this.item.cost,
+                    remaining_value: this.item.remaining_value,
+                    tracked_year: this.item.tracked_year,
+                    note: this.item.note?? "",
+                    fixed_asset_list: asset_list,
+                    recipients: recipient_list,
+                };
+
+                var bodyJson = JSON.stringify(body)
+
+                // console.log(bodyJson)
+
+                await itemRepository.updateDocument(bodyJson);
             }
             catch (err: any){
                 this.error = err.data
@@ -273,6 +337,48 @@ const TransferDocumentStore = defineStore({
                 this.totalCost += item.cost;
                 this.totalRemainingValue += item.remaining_value;
             });
+        },
+
+
+        /**
+         * Lấy danh sách chứng từ theo fixed_asset_id
+         * @param {fixed_asset_id}: id của tài sản
+         * @return danh sách chứng từ
+         * createdBy: NXHinh (08/11/2023)
+         */
+        async getByFixedAssetId(fixed_asset_id: String) {
+            this.loading = true;
+    
+            try {
+                return await itemRepository.getByFixedAssetId(fixed_asset_id);
+            }
+            catch (err: any){
+                this.error = err.data
+            }
+            finally {
+                this.loading = false
+            }
+        },
+
+        /**
+         * Lấy danh sách chứng từ theo fixed_asset_id sau 1 ngày chỉ định
+         * @param {fixed_asset_id}: id của tài sản
+         * @param {date}: ngày được chọn
+         * @return danh sách chứng từ
+         * createdBy: NXHinh (08/11/2023)
+         */
+        async getByFixedAssetIdAfterDate(fixed_asset_id: String, date: Date) {
+            this.loading = true;
+    
+            try {
+                return await itemRepository.getByFixedAssetIdAfterDate(fixed_asset_id, date);
+            }
+            catch (err: any){
+                this.error = err.data
+            }
+            finally {
+                this.loading = false
+            }
         },
     }
 

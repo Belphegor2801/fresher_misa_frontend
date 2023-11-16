@@ -5,7 +5,7 @@
         </label>
         <div class="combo-box" @keydown="selectWithKey($event)"
             :style="{'width': width}"
-            :class="{extend: showOptions, 'combo-box--filter': type==='filter', 'combo-box--select': type==='select'}"
+            :class="{extend: showOptions, 'cursor--not-allowed': disabled, 'combo-box--filter': type==='filter', 'combo-box--select': type==='select'}"
         >
             <m-input v-if="this.type != 'select'" :iconBefore="iconBefore" 
                 ref="comboBoxBtn"
@@ -19,6 +19,7 @@
                 :hasClearIcon="hasClearIcon"
                 :iconAfter="showOptions? 'icon--caret-up': 'icon--caret-down'"
                 :iconAfterFunction="onToggleOptions"
+                :disabled="disabled"
             >
             </m-input>
 
@@ -95,6 +96,10 @@ export default {
             default: -1
         },
         required: {
+            type: Boolean,
+            default: false
+        },
+        disabled: {
             type: Boolean,
             default: false
         },
@@ -206,10 +211,13 @@ export default {
          * author: NXHinh (17/08/2023)
          */
         onToggleOptions(event) {
-            if (this.showOptions) {
-                this.onHideOptions();
+            if (!this.disabled) {
+                if (this.showOptions) {
+                    this.onHideOptions();
+                }
+                else this.onShowOptions(event);
             }
-            else this.onShowOptions(event);
+            
         },
 
         /**

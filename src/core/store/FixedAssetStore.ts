@@ -30,6 +30,7 @@ const FixedAssetStore = defineStore({
         searchText: "",
         categoryFilter: "",
         departmentFilter: "",
+        itemsNotInclude: "",
 
         year: MHelper.getCurrentYear(),
 
@@ -82,6 +83,11 @@ const FixedAssetStore = defineStore({
                         Field: "fixed_asset_category_name",
                         Value: state.categoryFilter.toString(),
                         OperatorType: "LIKE",
+                    },
+                    {
+                        Field: "fixed_asset_id",
+                        Value: state.itemsNotInclude.toString(),
+                        OperatorType: "NOT",
                     },
                 ],
                 Search: [

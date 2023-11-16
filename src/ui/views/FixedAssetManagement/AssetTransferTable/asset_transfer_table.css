@@ -28,16 +28,27 @@
 }
 
 .tool-bar__text {
-    font-size: 20px;
-    font-weight: bold;
-
     display: flex;
     align-items: center;
-    gap: 26px;
+    gap: 16px;
 }
 
 .tool-bar__text i{
     transform: scale(1.4);
+}
+
+.tool-bar__button--delete {
+    padding: 8px 20px;
+    color: red;
+    border: 1px solid red;
+    border-radius: 2.5px;
+    cursor: pointer;
+    background-color: transparent;
+}
+
+.tool-bar__button--delete:hover {
+    color: white;
+    background-color: red;
 }
 
 .details-button {

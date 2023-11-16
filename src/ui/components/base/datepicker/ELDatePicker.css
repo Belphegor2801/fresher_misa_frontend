@@ -7,6 +7,10 @@
     box-shadow: unset;
 }
 
+.el-input.is-disabled .el-input__wrapper {
+    background-color: #eee;
+}
+
 .el-input {
     --el-date-editor-width: 100% !important;
     --el-input-height: 36px;

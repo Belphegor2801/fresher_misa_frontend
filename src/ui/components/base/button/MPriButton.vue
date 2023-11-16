@@ -1,7 +1,8 @@
 <template>
     <button id="button" :type=type :tabindex="tabindex"
             class="pri-btn" :class="'pri-btn--' + buttonClass" 
-            ref="button">
+            ref="button"
+            :style="{'width': width}">
         <i v-if="icon" class="icon--20 icon--button mr-4" :class=icon></i>
         {{text}}
     </button>
@@ -36,6 +37,10 @@ export default {
         icon: {
             type: String,
             default: ""
+        },
+        width: {
+            type: String,
+            default: '',
         },
     },
     methods: {

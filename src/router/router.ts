@@ -51,10 +51,17 @@ const routers = [
         ]
     },
     {
-        path:"/assets/transfer/form", name:"AssetTransferIndex", component: { render: () => h(RouterView) },
+        path:"/assets/transfer/add", name:"AssetTransferAdd", component: { render: () => h(RouterView) },
         children: [
-            {path:"", name:"AssetTransferForm", component: AssetTransferForm,},
-            {path:"add_assets", name:"AssetTransferFormAdd", component: AssetTransferSubForm,}
+            {path:"", name:"AssetTransferFormAdd", component: AssetTransferForm,},
+            {path:"add_assets", name:"AssetTransferFormAdd_Add", component: AssetTransferSubForm,}
+        ]
+    },
+    {
+        path:"/assets/transfer/edit/:id", name:"AssetTransferEdit", component: { render: () => h(RouterView) },
+        children: [
+            {path:"", name:"AssetTransferFormEdit", component: AssetTransferForm,},
+            {path:"add_assets", name:"AssetTransferFormEdit_Add", component: AssetTransferSubForm,}
         ]
     },
     {

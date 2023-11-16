@@ -7,10 +7,13 @@ import { MHelper } from "@/resources/helper";
 // import { MResource } from "@/resources/resources";
 
 import Pagination from "./common/pagination";
+import { Recipient } from "../entities/Recipient";
+import { RecipientRepository } from "../api/RecipientRepository";
 
 // const Resource = MResource["VN"];
 
 const transferDocumentRepository = new TransferDocumentRepository()
+const recipientRepository = new RecipientRepository
 const itemRepository = new TransferDocumentDetailsRepository()
 
 
@@ -36,10 +39,12 @@ const TransferDocumentDetailsStore = defineStore({
         loading: false,
         selected: [],
 
-        tempSelected: [],
-
+        
         document_id: "",
         items: new Array<TransferDocumentDetails>,
+        tempSelected: [],
+        recipients: new Array<Recipient>(),
+        tempRecipientSelected: [],
 
         // 
         totalCost: 0,
@@ -87,7 +92,27 @@ const TransferDocumentDetailsStore = defineStore({
     
             try {
                 var pagingObject = this.getPagingObject;
+                this.recipients = await recipientRepository.getByDocumentId(this.document_id);
                 this.items = await transferDocumentRepository.getDetails(this.document_id, pagingObject);
+            }
+            catch (err: any){
+                this.error = err.data
+            }
+            finally {
+                this.loading = false
+            }
+        },
+
+        /**
+         * Lấy danh sách thông tin giao nhận cuối cùng
+         * @return không
+         * createdBy: NXHinh (14/11/2023)
+         */
+        async getLastRecipient() {
+            this.loading = true;
+    
+            try {
+                this.tempRecipientSelected = await recipientRepository.getLast();
             }
             catch (err: any){
                 this.error = err.data
@@ -108,7 +133,7 @@ const TransferDocumentDetailsStore = defineStore({
             try {
                 var pagingObject = this.getPagingObject;
                 pagingObject.Limit = 1000000
-                this.items = await transferDocumentRepository.getDetailsAll(this.document_id);
+                this.items = await transferDocumentRepository.getDetailsAll();
             }
             catch (err: any){
                 this.error = err.data

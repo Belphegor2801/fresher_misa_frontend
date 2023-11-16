@@ -21,7 +21,6 @@ label a {
 
 .combo-box {
     position: relative;
-    cursor: pointer;
 }
 
 .combo-box--filter {

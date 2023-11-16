@@ -6,7 +6,7 @@
                 <div class="dialog__body--icon-container">
                     <div class="icon--24" :class="icon"></div>
                 </div>
-                <p>{{message}}</p>
+                <p style="white-space: pre-wrap;">{{message}}</p>
             </div>
             <div class="dialog__footer">
                 <a></a>

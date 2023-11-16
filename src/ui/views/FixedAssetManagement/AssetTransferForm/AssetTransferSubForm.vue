@@ -43,32 +43,33 @@
 
                     <template #table--body>
                         <tr v-for="(item, index) in this.store.items" :key="item.fixed_asset_id"
+                            class="cursor--pointer"
                             :class="isAdded(item)? 'disabled': ''">
                             <td class="ta-center">
                                 <!-- <input type="checkbox" v-model="selected" :value="item.fixed_asset_id" /> -->
-                                <m-checkbox v-model:valueInput="selected" 
+                                <m-checkbox v-model:valueInput="selected" objectKey="fixed_asset_id"
                                     :value="item" :disabled="isAdded(item)"
                                 ></m-checkbox>
                             </td>
-                            <td class="ta-center">
+                            <td class="ta-center" @click="selectItem(item)">
                                 {{ index + 1 + (this.store.pagination.page - 1) * (this.store.pagination.recordPerPage)  }}
                             </td>
-                            <td class="ta-left">{{ item.fixed_asset_code }}</td>
-                            <td class="ta-left">{{ item.fixed_asset_name }}</td>
-                            <td class="ta-left">
+                            <td class="ta-left" @click="selectItem(item)">{{ item.fixed_asset_code }}</td>
+                            <td class="ta-left" @click="selectItem(item)">{{ item.fixed_asset_name }}</td>
+                            <td class="ta-left" @click="selectItem(item)">
                                 <m-tooltip :text= "item.department_name">
                                     <template #content>
                                     <a> {{ item.department_name }} </a>
                                     </template>
                                 </m-tooltip>
                             </td>
-                            <td class="ta-right">
+                            <td class="ta-right" @click="selectItem(item)">
                                 {{ this.$MHelper.formatNumber(item.cost)}}
                             </td>
-                            <td class="ta-right">
+                            <td class="ta-right" @click="selectItem(item)">
                                 {{ this.$MHelper.formatNumber(item.remaining_value) }}
                             </td>
-                            <td class="ta-center">
+                            <td class="ta-center" @click="selectItem(item)">
                                 {{ item.tracked_year }}
                             </td>
                         </tr>
@@ -176,14 +177,21 @@
 
         setup () {
             const store = FixedAssetStore();
-            store.get();
-            store.getTotalRecords();
             const detailsStore = TransferDocumentDetailsStore();
             return {store, detailsStore}
         },
 
         mounted () {
             this.$refs.asset_transfer_sub_form.focus();
+
+            this.store.itemsNotInclude = ""
+            this.detailsStore.tempSelected.forEach(item => {
+                this.store.itemsNotInclude += `'${item.fixed_asset_id}',`
+            });
+            this.store.itemsNotInclude = this.store.itemsNotInclude.slice(0, -1)
+
+            this.store.get();
+            this.store.getTotalRecords();
         },
 
         data() {
@@ -197,7 +205,7 @@
 
         watch: {
             'store.items': function(){
-            this.store.calculateTotal();
+                this.store.calculateTotal();
             },
             'store.pagination.page': function(){
                 this.store.get();
@@ -211,13 +219,20 @@
 
                 this.store.get();
             },
-            newDepartment: function(val){
-                console.log('Department:', val)
-            }
         },
         
 
         methods: {
+            /**
+             * Chọn tài sản
+             * @return không
+             * createdBy: NXHinh (15/11/2023)
+             */
+            selectItem(item) {
+                if (!this.selected.includes(item))
+                    this.selected.push(item)
+            },
+
             /**
              * Kiểm tra xem tài sản đã được add chưa
              * @return không
@@ -300,13 +315,11 @@
                             item.department_after_name = this.newDepartment
                             item.reason = this.reason
                             this.detailsStore.tempSelected.push(item)
-                            console.log(item)
+
                         }
                     }); 
                 }
             },
-
-            
         },
 
         computed: {
@@ -317,14 +330,21 @@
              */
             selectAll: {
                 get: function () {
-                    return this.store.items ? this.selected.length == this.store.items.length && this.selected.length > 0 : false;
+                    // Đọc danh sách đang được chọn ở trang hiện tại
+                    const selectedInThisPage = 
+                        this.selected.filter(x => this.store.items.map(i => i.fixed_asset_id).includes(x.fixed_asset_id));
+                    return this.store.items ? selectedInThisPage.length == this.store.items.length && selectedInThisPage.length > 0 : false;
                 },
                 set: function (value) {
-                    var selected = [];
+                    // Làm mới danh sách đang được chọn ở trang hiện tại
+                    var selected = this.selected.filter(x => !this.store.items.map(x => x.fixed_asset_id).includes(x.fixed_asset_id));
 
+                    // Thêm danh sách đang được chọn ở trang hiện tại
                     if (value) {
                         this.store.items.forEach(function (asset) {
-                            selected.push(asset);
+                            if (!selected.includes(asset)) {
+                                selected.push(asset);
+                            }
                         });
                     }
                     this.selected = selected;

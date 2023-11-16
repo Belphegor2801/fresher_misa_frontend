@@ -28,6 +28,13 @@ export const MResource = {
             DuplicatedSuccess: "Nhân bản dữ liệu thành công",
             DeletedSuccess: "Xóa dữ liệu thành công",
         },
+        ActionType: {
+            Get: "lấy",
+            Add: "thêm",
+            Edit: "chỉnh sửa",
+            Duplicate: "nhân bản",
+            Delete: "xóa",
+        },
         Header: {
             Title: "Danh sách tài sản",
             Department: "Sở tài chính",

@@ -1,18 +1,18 @@
 <template>
     <div class="context-menu" :style="style" v-click-outside="clickOutSide">
-        <div class="context-menu__item" @click="addAsset" v-if="tool.add">
+        <div class="context-menu__item" @click="addItem" v-if="tool.add">
             <i class="icon--18 icon--add"></i>
             <span>{{ $MResource.ContextMenu.Add }}</span>
         </div>
-        <div class="context-menu__item" @click="editAsset" v-if="tool.edit">
+        <div class="context-menu__item" @click="editItem" v-if="tool.edit">
             <i class="icon--18 icon--edit"></i>
             <span>{{ $MResource.ContextMenu.Edit }}</span>
         </div>
-        <div class="context-menu__item" @click="deleteAsset" v-if="tool.delete">
+        <div class="context-menu__item" @click="deleteItem" v-if="tool.delete">
             <i class="icon--18 icon--delete"></i>
             <span>{{ $MResource.ContextMenu.Delete }}</span>
         </div>
-        <div class="context-menu__item" @click="duplicateAsset" v-if="tool.duplicate">
+        <div class="context-menu__item" @click="duplicateItem" v-if="tool.duplicate">
             <i class="icon--18 icon--duplicate"></i>
             <span>{{ $MResource.ContextMenu.Duplicate }}</span>
         </div>
@@ -79,8 +79,8 @@ export default {
          * @return: không
          * Author: nxhinh (27/09/2023)
          */
-        addAsset() {
-            this.$emit("addAsset");
+        addItem() {
+            this.$emit("add");
             this.$emit("update:show", false);
         },
         /**
@@ -88,8 +88,8 @@ export default {
          * @return: không
          * Author: nxhinh (27/09/2023)
          */
-        editAsset() {
-            this.$emit("editAsset");
+        editItem() {
+            this.$emit("edit");
             this.$emit("update:show", false);
         },
         /**
@@ -97,8 +97,8 @@ export default {
          * @return: không
          * Author: nxhinh (27/09/2023)
          */
-        deleteAsset() {
-            this.$emit("deleteAsset");
+        deleteItem() {
+            this.$emit("delete");
             this.$emit("update:show", false);
         },
         /**
@@ -106,8 +106,8 @@ export default {
          * @return: không
          * Author: nxhinh (27/09/2023)
          */
-        duplicateAsset() {
-            this.$emit("duplicateAsset");
+        duplicateItem() {
+            this.$emit("duplicate");
             this.$emit("update:show", false);
         },
         /**
